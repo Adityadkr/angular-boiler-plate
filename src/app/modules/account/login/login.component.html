@@ -1,7 +1,7 @@
 <p>login works!</p>
 <div class="container">
 <button class="btn btn-primary" (click)="add()">Add</button>
-    <app-table [tableColumn]="tableColumn" [tableData]="tableData" [showDeleteBtn]="true" [showViewBtn]="true"
+    <app-table [tableColumn]="tableColumn" [tableData]="tableData" [tableKeys]="tableKeys" [showDeleteBtn]="true" [showViewBtn]="true"
         [showEditBtn]="true" (onView)="view($event)" (onDelete)="delete($event)">
     </app-table>
 

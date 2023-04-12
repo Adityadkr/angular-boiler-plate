@@ -12,6 +12,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   @Input() tableData: Array<any> = []
   @Input() tableColumn: Array<any> = []
+  @Input() tableKeys: Array<any> = []
   @Input() showViewBtn: boolean = false
   @Input() showEditBtn: boolean = false
   @Input() showDeleteBtn: boolean = false

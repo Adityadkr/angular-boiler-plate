@@ -10,6 +10,7 @@ import { StorageService } from 'src/app/lib/services/storage-service/storage.ser
 export class LoginComponent implements OnInit {
 
   tableColumn: Array<any> = ["Sr.No", "First Name", "Last Name", "Twitter"]
+  tableKeys: Array<any> = [ "firstname", "lastname", "twitter"]
   tableData: Array<any> = [{ "firstname": "Aditya", "lastname": "Deokar", "twitter": "@adityadeokar" }, { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" }]
   constructor(private _layoutService: LayoutService, private storageService: StorageService) { }
 
