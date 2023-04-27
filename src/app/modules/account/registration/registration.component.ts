@@ -163,7 +163,7 @@ export class RegistrationComponent implements OnInit {
             "label": "DOB",
             "value": null,
             "min": new Date().toISOString().split('T')[0],
-            "max": "2023-01-15",
+            
             "type": "date",
             "validators": [
               {

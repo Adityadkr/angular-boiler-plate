@@ -44,3 +44,12 @@ nav a{
     padding: 7px 25px;
     display: inline-block;
 }
+.icinput{
+    width: 20px;
+    border: 0;
+    margin-left: -28px;
+    cursor: pointer;
+}
+input:focus.icinput{
+    outline: none;    
+}

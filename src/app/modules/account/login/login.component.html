@@ -5,4 +5,14 @@
         [showEditBtn]="true" (onView)="view($event)" (onDelete)="delete($event)">
     </app-table>
 
+    <form [formGroup]="frm">
+
+        <input type="date" formControlName="date1"  appDatepicker >
+        <br>
+        <input type="datetime-local" format="datetime" formControlName="date2"  appDatepicker >
+        <button  type ="button" class="ml-2 btn btn-primary"(click)="submit()">submit</button>
+    </form>
+
+ 
+    <!-- <input type="date"   appDatepicker2>  -->
 </div>

@@ -5,6 +5,8 @@ import { AccountRoutingModule } from './account-routing.module';
 import { LoginComponent } from './login/login.component';
 import { ReusableComponentsModule } from 'src/app/lib/components/reusable-components/reusable-components.module';
 import { RegistrationComponent } from './registration/registration.component';
+import { DirectiveCollectionModule } from 'src/app/lib/directive-collection/directive-collection.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -18,7 +20,10 @@ import { RegistrationComponent } from './registration/registration.component';
   imports: [
     CommonModule,
     AccountRoutingModule,
-    ReusableComponentsModule
+    ReusableComponentsModule,
+    DirectiveCollectionModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class AccountModule { }
