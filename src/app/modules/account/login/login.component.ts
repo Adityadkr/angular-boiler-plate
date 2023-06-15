@@ -15,17 +15,24 @@ export class LoginComponent implements OnInit {
     // { title: 'Sr.No' },
     { title: 'First Name', data: 'firstname' },
     { title: 'Last Name', data: 'lastname' },
-    { title: 'Twitter.', data: 'twitter' }]
-
-  tableKeys: Array<any> = ["firstname", "lastname", "twitter"]
+    { title: 'Twitter.', data: 'twitter' }
+  ]
+  tableColumn1: Array<any> = [
+    // { title: 'Sr.No' },
+    { title: 'Role Code', data: 'ROLE_CODE' },
+    { title: 'Role Name', data: 'ROLE_NAME' },
+    { title: 'Type', data: 'TYPE' }
+    
+  ]
   tableData: Array<any> = [];
+  url:string='http://localhost:8070/role/getallrolesp';
   //= [{ "firstname": "Aditya", "lastname": "Deokar", "twitter": "@adityadeokar" }, { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" }]
   frm: any;
   constructor(private api: ApiHelperService, private fb: FormBuilder, private _layoutService: LayoutService, private storageService: StorageService) { }
 
   ngOnInit(): void {
-    // this.postApi();
-    // this.getApi();
+   // this.postApi();
+   // this.getApi();
     this.frm = this.fb.group({
       date1: [""],
       date2: [""]
@@ -69,15 +76,14 @@ export class LoginComponent implements OnInit {
         { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
         { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
         { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
-        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
-        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
-        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
-        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
-        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
-        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
-        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
-        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" }
       ]
+      // var data:any = {
+      //   "draw": 1,
+      //   "recordsTotal": 100,
+      //   "recordsFiltered": 100,
+      //   "data": this.tableData
+      // }
+      // this.tableData = data;
 
     }, 3000);
   }
@@ -85,7 +91,40 @@ export class LoginComponent implements OnInit {
     alert(JSON.stringify(this.frm.value))
   }
   add() {
-    this.tableData.push({ "firstname": "Aditya", "lastname": "Deokar", "twitter": "@adityadeokar" })
+    setTimeout(() => {
+     
+      this.tableData = [
+        { "firstname": "Aditya", "lastname": "Deokar", "twitter": "@adityadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+        { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" },
+       
+      ]
+     // this.tableData.push({ "firstname": "Prachi", "lastname": "Gaikwad", "twitter": "@prachi" })
+      var data:any = {
+        "draw": 1,
+        "recordsTotal": 100,
+        "recordsFiltered": 100,
+        "data": this.tableData
+      }
+      this.tableData = data;
+    }, 3000);
   }
   view(item: any) {
     alert(JSON.stringify(item))
@@ -101,7 +140,22 @@ export class LoginComponent implements OnInit {
   ngOnDestroy(): void {
     this._layoutService.resetConfig();
   }
-  
+  postApi() {
 
+    this.api.post("http://localhost:8070/product/insert").subscribe(resp => {
+      debugger
+    })
+  }
 
+  getApi() {
+
+    this.api.get("http://localhost:8070/product/list").subscribe(resp => {
+      debugger
+    })
+  }
+
+  Draw(e: any) {
+    debugger
+    alert(JSON.stringify(e))
+  }
 }
