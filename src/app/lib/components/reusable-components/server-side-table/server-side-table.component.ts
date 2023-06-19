@@ -12,6 +12,7 @@ export class ServerSideTableComponent implements OnInit {
   @Input() url: string = '';
   @Input() id: string = '';
   @Input() tableColumn: Array<any> = []
+  @Input() customBtn: Array<any> = []
 
   @Input() showViewBtn: boolean = false
   @Input() showEditBtn: boolean = false
@@ -20,15 +21,16 @@ export class ServerSideTableComponent implements OnInit {
   @Output() onView: any = new EventEmitter<any>();
   @Output() onEdit: any = new EventEmitter<any>();
   @Output() onDelete: any = new EventEmitter<any>();
+  @Output() onCustom: any = new EventEmitter<any>();
   //@Output() onDraw: any = new EventEmitter<any>();
   DataKeys: Array<any> = []
   columns: Array<any> = []
-  tblId:string=""
+  tblId: string = ""
   constructor() { }
 
   ngOnInit(): void {
     this.url = environment.apiURL + this.url;
-    this.tblId = "#"+this.id;
+    this.tblId = "#" + this.id;
 
   }
   ngAfterViewInit(): void {
@@ -56,15 +58,15 @@ export class ServerSideTableComponent implements OnInit {
         data: function (d) {
           debugger
           var info = $(that.tblId).DataTable().page.info();
-          var sort = d.columns[d.order[0].column].data ==0 ? d.columns[1].data:d.columns[d.order[0].column].data;
+          var sort = d.columns[d.order[0].column].data == 0 ? d.columns[1].data : d.columns[d.order[0].column].data;
           return JSON.stringify({
             "draw": d.draw,
             "length": d.length,
             "search": d.search.value,
             "start": d.start,
             "page": info.page,
-            "sort":sort,
-            "sortDir":d.order[0].dir,
+            "sort": sort,
+            "sortDir": d.order[0].dir,
 
           })
         },
@@ -83,112 +85,26 @@ export class ServerSideTableComponent implements OnInit {
 
       columns: this.columns
     });
-    // $('.dataTables_filter input')
-    //   .off()
-    //   .on('keyup', function (e) {
-    //     var value =(e.target as HTMLInputElement).value.trim()
-    //     if(value.length > 2){
 
-    //       $('#example').DataTable().search((e.target as HTMLInputElement).value.trim(), false, false).draw();
-    //     }
-    //     else{
-    //     table.draw();
-    //     }
-    //   });
-    
+
     $(this.tblId).on('click', 'button', function () {
       debugger
       if ($(this).hasClass('view')) {
 
-        that.view(JSON.stringify($(this).data('row')))
+        that.view($(this).data('row'))
       }
       else if ($(this).hasClass('edit')) {
-        that.edit(JSON.stringify($(this).data('row')))
+        that.edit($(this).data('row'))
       }
       else if ($(this).hasClass('delete')) {
-        that.delete(JSON.stringify($(this).data('row')))
+        that.delete($(this).data('row'))
+      }
+      else {
+        that.custom($(this).html(), $(this).data('row'))
       }
     });
   }
-  ngOnChanges(): void {
-    let that = this;
 
-    this.prepareDtOptions();
-    var table = $(this.tblId).DataTable({
-      paging: true,
-      serverSide: true,
-      processing: true,
-
-      ajax: {
-        url: this.url,
-        method: "POST",
-        contentType: "application/json",
-        "dataSrc": function (json) {
-          debugger
-          // json  =
-          // {"draw":1,
-          // "recordsTotal":32,
-          // "recordsFiltered":32,
-          // "data":{"data":json.RESPONSE_MESSAGE_DETAILS.DATA}}
-          return json.data;
-        },
-        data: function (d) {
-          debugger
-          var info = $(that.tblId).DataTable().page.info();
-          var sort = d.columns[d.order[0].column].data ==0 ? d.columns[1].data:d.columns[d.order[0].column].data;
-          return JSON.stringify({
-            "draw": d.draw,
-            "length": d.length,
-            "search": d.search.value,
-            "start": d.start,
-            "page": info.page,
-            "sort":sort,
-            "sortDir":d.order[0].dir,
-
-          })
-        },
-        error: function (e) {
-          return JSON.stringify({
-            "draw": 1,
-            "length": 10,
-            "search": "",
-            "start": 0,
-            "page": 0
-          })
-        }
-      },
-
-      orderMulti: false, //Multi column order is disabled
-
-      columns: this.columns
-    });
-    // $('.dataTables_filter input')
-    //   .off()
-    //   .on('keyup', function (e) {
-    //     var value =(e.target as HTMLInputElement).value.trim()
-    //     if(value.length > 2){
-
-    //       $('#example').DataTable().search((e.target as HTMLInputElement).value.trim(), false, false).draw();
-    //     }
-    //     else{
-    //     table.draw();
-    //     }
-    //   });
-    
-    $(this.tblId).on('click', 'button', function () {
-      debugger
-      if ($(this).hasClass('view')) {
-
-        that.view(JSON.stringify($(this).data('row')))
-      }
-      else if ($(this).hasClass('edit')) {
-        that.edit(JSON.stringify($(this).data('row')))
-      }
-      else if ($(this).hasClass('delete')) {
-        that.delete(JSON.stringify($(this).data('row')))
-      }
-    });
-  }
   prepareDtOptions() {
     debugger
     let that = this;
@@ -208,30 +124,56 @@ export class ServerSideTableComponent implements OnInit {
         render: function (data: any, type: any, row: any, full: any, meta: any) {
           var html = ""
           if (that.showViewBtn) {
-            html = html + '<button  class="btn btn-light m-1 view" data-row=' + JSON.stringify(row) + '>View</button>'
+            html = html + '<button  class="btn btn-light m-1 view" data-row=' + encodeURIComponent(JSON.stringify(row)) + '>View</button>'
           }
           if (that.showEditBtn) {
-            html = html + '<button *ngIf="showEditBtn" data-row=' + JSON.stringify(row) + ' class="btn btn-primary m-1 edit" (click)="edit(' + row + ')">Edit</button>'
+            html = html + '<button  data-row=' + encodeURIComponent(JSON.stringify(row)) + ' class="btn btn-primary m-1 edit" >Edit</button>'
           }
 
           if (that.showDeleteBtn) {
-            html = html + '<button *ngIf="showDeleteBtn" data-row=' + JSON.stringify(row) + ' class="btn btn-danger m-1 delete"(click)="delete(' + row + ')">Delete</button>'
+            html = html + '<button  class="btn btn-danger m-1 delete" data-row=' + encodeURIComponent(JSON.stringify(row)) + '>Delete</button>'
+
+          }
+          if (that.customBtn.length > 0) {
+            that.customBtn.forEach(element => {
+              if (element.hasOwnProperty("condition")) {
+                
+
+                if(eval("row."+element.condition))
+                {
+                  var custBtn = '<button class="' + element.class + ' m-1" data-row='+ encodeURIComponent(JSON.stringify(row)) +' >' + element.btnTitle + '</button>'
+                  html = html + custBtn;
+                }
+              }
+              else { 
+                var custBtn = '<button class="' + element.class + ' m-1"  data-row='+ encodeURIComponent(JSON.stringify(row)) +'>' + element.btnTitle + '</button>'
+                html = html + custBtn;
+              }
+            });
           }
           return html
 
         }
       })
+    debugger
+
 
   }
   edit(item: any) {
-    this.onEdit.emit(item)
+    this.onEdit.emit(JSON.parse(decodeURIComponent(item)))
   }
   view(item: any) {
 
-    this.onView.emit(item)
+    this.onView.emit(JSON.parse(decodeURIComponent(item)))
   }
   delete(item: any) {
-    this.onDelete.emit(item)
+    this.onDelete.emit(JSON.parse(decodeURIComponent(item)))
+  }
+  custom(html: any, item: any) {
+    debugger
+    item = JSON.parse(decodeURIComponent(item))
+    item.btn = html;
+    this.onCustom.emit(item)
   }
 
 }

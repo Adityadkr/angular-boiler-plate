@@ -24,6 +24,14 @@ export class LoginComponent implements OnInit {
     { title: 'Type', data: 'TYPE' }
     
   ]
+  customBtnColumns: Array<any> = [
+    // { title: 'Sr.No' },
+    { btnTitle: 'Approve', class: 'btn btn-info',condition:"ROLE_CODE == 'IMP'" },  
+    { btnTitle: 'Reject', class: 'btn btn-default',condition:"ROLE_CODE == 'EXP'" },
+    { btnTitle: 'Amend', class: 'btn btn-success',condition:"ROLE_CODE == 'SA'" }
+   
+    
+  ]
   tableData: Array<any> = [];
   url:string='http://localhost:8070/role/getallrolesp';
   //= [{ "firstname": "Aditya", "lastname": "Deokar", "twitter": "@adityadeokar" }, { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" }]
@@ -132,6 +140,9 @@ export class LoginComponent implements OnInit {
   delete(item: any) {
 
     this.tableData.splice(this.tableData.indexOf(this.tableData.find(x => x.firstname == item.firstname), 1))
+  }
+  custom(item: any) {
+    alert(JSON.stringify(item))
   }
   ngAfterContentInit(): void {
     this._layoutService.setConfig({ header: true, footer: true, sidebar: false })

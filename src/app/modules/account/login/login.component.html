@@ -8,10 +8,12 @@
 
 
     <app-server-side-table [id]="'tblRole'" [url]="url" [tableColumn]="tableColumn1"
-      [showDeleteBtn]="true" [showViewBtn]="true"
-        [showEditBtn]="false" (onView)="view($event)" (onDelete)="delete($event)"
+      [showDeleteBtn]="true" [showViewBtn]="true" [customBtn]="customBtnColumns"
+        [showEditBtn]="false" (onView)="view($event)" (onDelete)="delete($event)" (onCustom)="custom($event)"
     ></app-server-side-table>
 
+
+   
 
 <!--     
     <app-server-side-table [id]="'tblRole1'" [url]="url" [tableColumn]="tableColumn1"
