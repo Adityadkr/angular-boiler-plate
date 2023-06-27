@@ -1,21 +1,55 @@
 <p>login works!</p>
 <div class="container">
-<button class="btn btn-primary" (click)="add()">Add</button>
+   
+    <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+        aria-controls="offcanvasExample">
+        Button with data-bs-target
+    </button> -->
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images,
+                lists, etc.
+            </div>
+            <div class="dropdown mt-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown">
+                    Dropdown button
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" (click)="add()">Add</button>
     <!-- <app-table [tableColumn]="tableColumn" [tableData]="tableData"  [showDeleteBtn]="true" [showViewBtn]="true"
         [showEditBtn]="false" (onView)="view($event)" (onDelete)="delete($event)">
     </app-table> -->
 
 
 
-    <app-server-side-table [id]="'tblRole'" [url]="url" [tableColumn]="tableColumn1"
-      [showDeleteBtn]="true" [showViewBtn]="true" [customBtn]="customBtnColumns"
-        [showEditBtn]="false" (onView)="view($event)" (onDelete)="delete($event)" (onCustom)="custom($event)"
-    ></app-server-side-table>
+    <app-server-side-table [id]="'tblRole'" [url]="url" [tableColumn]="tableColumn1" [fileName]="'Role Masters'"
+        [buttons]="'ved'" [customBtn]="customBtnColumns" (onView)="view($event)" (onDelete)="delete($event)"
+        (onCustom)="custom($event)"></app-server-side-table>
+    <!-- 
+
+    <app-server-side-table [id]="'tblRole'" [url]="url" [tableColumn]="tableColumn1" [fileName]="'Role Masters'"
+    [showDeleteBtn]="false" [showViewBtn]="true" [customBtn]="customBtnColumns"
+      [showEditBtn]="false" (onView)="view($event)" (onDelete)="delete($event)" (onCustom)="custom($event)"
+  ></app-server-side-table> -->
 
 
-   
 
-<!--     
+
+    <!--     
     <app-server-side-table [id]="'tblRole1'" [url]="url" [tableColumn]="tableColumn1"
       [showDeleteBtn]="true" [showViewBtn]="true"
         [showEditBtn]="false" (onView)="view($event)" (onDelete)="delete($event)"
@@ -25,13 +59,27 @@
 
     <form [formGroup]="frm">
 
-        <input type="date" formControlName="date1"  appDatepicker >
+        <input type="date" formControlName="date1" appDatepicker>
         <br>
-        <input type="datetime-local" format="datetime" formControlName="date2"  appDatepicker >
-        <input type="text"  appNumberonly >
-        <button  type ="button" class="ml-2 btn btn-primary"(click)="submit()">submit</button>
+        <input type="datetime-local" format="datetime" formControlName="date2" appDatepicker>
+        <input type="text" appNumberonly>
+        <button type="button" class="ml-2 btn btn-primary" (click)="submit()">submit</button>
     </form>
 
- 
+
     <!-- <input type="date"   appDatepicker2>  -->
 </div>
+<!-- <button class="btn btn-lg btn-outline-primary mb-2 me-2" (click)="openEnd(content)">Right position</button> -->
+
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title">Offcanvas title</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+        <p>One fine body&hellip;</p>
+        <div class="text-end">
+            <button type="button" class="btn btn-outline-dark" (click)="offcanvas.close('Close click')">Close</button>
+        </div>
+    </div>
+</ng-template>

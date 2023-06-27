@@ -13,7 +13,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './lib/interceptors/jwt.interceptor';
 import { NotfoundComponent } from './lib/components/error-pages/notfound/notfound.component';
 import * as $ from 'jquery';
-import * as DataTable from 'datatables.net';
+import 'datatables.net';
+//import 'datatables.net-buttons'
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import * as DataTable from 'datatables.net';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,HttpClientModule
+    AppRoutingModule, HttpClientModule
 
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],

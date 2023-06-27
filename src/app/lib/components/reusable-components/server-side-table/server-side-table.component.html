@@ -1,1 +1,15 @@
-<table id="{{id}}"></table>
+<!-- <table datatable [dtOptions]="dtOptions" class="table table-stripped table-border "></table> -->
+
+
+<!-- <button type="button" class="btn btn-default">Filter</button>
+<button type="button" class="btn btn-primary" (click)="export()">Export</button> -->
+
+<button class="btn btn-primary" type="button" id="bsFilter" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+aria-controls="offcanvasExample" hidden>
+Button with data-bs-target
+</button >
+
+<table id="{{id}}" data-buttons='["excel"]' class="table table-stripped table-border ">
+
+</table>
+<!-- <table id="{{id}}"  class="table table-stripped table-border "></table> -->

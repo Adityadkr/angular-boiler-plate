@@ -12,11 +12,13 @@ export class ServerSideTableComponent implements OnInit {
   @Input() url: string = '';
   @Input() id: string = '';
   @Input() tableColumn: Array<any> = []
+  @Input() buttons = "v"
   @Input() customBtn: Array<any> = []
+  @Input() fileName: string = '';
 
-  @Input() showViewBtn: boolean = false
-  @Input() showEditBtn: boolean = false
-  @Input() showDeleteBtn: boolean = false
+  // @Input() showViewBtn: boolean = false
+  // @Input() showEditBtn: boolean = false
+  // @Input() showDeleteBtn: boolean = false
 
   @Output() onView: any = new EventEmitter<any>();
   @Output() onEdit: any = new EventEmitter<any>();
@@ -26,18 +28,27 @@ export class ServerSideTableComponent implements OnInit {
   DataKeys: Array<any> = []
   columns: Array<any> = []
   tblId: string = ""
+  excelBtnId: string = ""
+  exportBtn: string = ""
   constructor() { }
 
   ngOnInit(): void {
     this.url = environment.apiURL + this.url;
     this.tblId = "#" + this.id;
+    this.excelBtnId = this.id + "_excel";
+    this.exportBtn = this.id + "_export"
+    if (this.fileName == '') {
+      this.fileName = this.tblId
+    }
 
   }
   ngAfterViewInit(): void {
+
     let that = this;
 
     this.prepareDtOptions();
     var table = $(this.tblId).DataTable({
+
       paging: true,
       serverSide: true,
       processing: true,
@@ -83,10 +94,15 @@ export class ServerSideTableComponent implements OnInit {
 
       orderMulti: false, //Multi column order is disabled
 
-      columns: this.columns
+      columns: this.columns,
+      dom: 'Bfrtip',
+      // buttons: [
+
+      // ]
+
     });
 
-
+    this.setUpExcelBtn();
     $(this.tblId).on('click', 'button', function () {
       debugger
       if ($(this).hasClass('view')) {
@@ -99,17 +115,29 @@ export class ServerSideTableComponent implements OnInit {
       else if ($(this).hasClass('delete')) {
         that.delete($(this).data('row'))
       }
+
       else {
         that.custom($(this).html(), $(this).data('row'))
       }
     });
+
+    $("#" + this.exportBtn).on('click', function () {
+      that.export();
+    });
+    $("#filter").on('click', function () {
+      debugger
+      that.filter();
+    });
   }
 
   prepareDtOptions() {
+
     debugger
     let that = this;
     this.columns = []
     this.columns.push({
+      title: "Sr.No",
+      orderable: false,
       render: function (data: any, type: any, full: any, meta: any) {
 
         return meta.row + meta.settings._iDisplayStart + 1;
@@ -123,30 +151,29 @@ export class ServerSideTableComponent implements OnInit {
 
         render: function (data: any, type: any, row: any, full: any, meta: any) {
           var html = ""
-          if (that.showViewBtn) {
+          if (that.buttons.includes('v')) {
             html = html + '<button  class="btn btn-light m-1 view" data-row=' + encodeURIComponent(JSON.stringify(row)) + '>View</button>'
           }
-          if (that.showEditBtn) {
+          if (that.buttons.includes('e')) {
             html = html + '<button  data-row=' + encodeURIComponent(JSON.stringify(row)) + ' class="btn btn-primary m-1 edit" >Edit</button>'
           }
 
-          if (that.showDeleteBtn) {
+          if (that.buttons.includes('d')) {
             html = html + '<button  class="btn btn-danger m-1 delete" data-row=' + encodeURIComponent(JSON.stringify(row)) + '>Delete</button>'
 
           }
           if (that.customBtn.length > 0) {
             that.customBtn.forEach(element => {
               if (element.hasOwnProperty("condition")) {
-                
 
-                if(eval("row."+element.condition))
-                {
-                  var custBtn = '<button class="' + element.class + ' m-1" data-row='+ encodeURIComponent(JSON.stringify(row)) +' >' + element.btnTitle + '</button>'
+
+                if (eval("row." + element.condition)) {
+                  var custBtn = '<' + element.type + ' class="' + element.class + ' m-1" data-row=' + encodeURIComponent(JSON.stringify(row)) + ' >' + element.btnTitle + '</' + element.type + '>'
                   html = html + custBtn;
                 }
               }
-              else { 
-                var custBtn = '<button class="' + element.class + ' m-1"  data-row='+ encodeURIComponent(JSON.stringify(row)) +'>' + element.btnTitle + '</button>'
+              else {
+                var custBtn = '<' + element.type + ' class="' + element.class + ' m-1"  data-row=' + encodeURIComponent(JSON.stringify(row)) + '>' + element.btnTitle + '</' + element.type + '>'
                 html = html + custBtn;
               }
             });
@@ -159,6 +186,8 @@ export class ServerSideTableComponent implements OnInit {
 
 
   }
+
+
   edit(item: any) {
     this.onEdit.emit(JSON.parse(decodeURIComponent(item)))
   }
@@ -174,6 +203,29 @@ export class ServerSideTableComponent implements OnInit {
     item = JSON.parse(decodeURIComponent(item))
     item.btn = html;
     this.onCustom.emit(item)
+  }
+
+  setUpExcelBtn() {
+    var x = document.getElementsByClassName("buttons-excel")[0];
+    x.id = this.excelBtnId;
+
+    $("#" + this.excelBtnId).hide();
+
+
+
+    $("#tblRole_filter").append("<button class='btn btn-primary' id=" + this.exportBtn + " style='margin-left:10px' type='button'>Export</button>")
+    $("#tblRole_filter").append("<button class='btn btn-secondary' id='filter' style='margin-left:10px' type='button'>Filter</button>")
+  }
+  export() {
+    var btn = document.getElementById(this.excelBtnId) as HTMLElement;
+    $('title').html(this.fileName);
+    btn.click();
+  }
+  filter()
+  {
+    var btn = document.getElementById("bsFilter") as HTMLElement;
+
+    btn.click();
   }
 
 }
