@@ -1,14 +1,21 @@
 <!-- <table datatable [dtOptions]="dtOptions" class="table table-stripped table-border "></table> -->
 
 
-<!-- <button type="button" class="btn btn-default">Filter</button>
-<button type="button" class="btn btn-primary" (click)="export()">Export</button> -->
+<div class="tablebtn-right">
+<button type="button" id="filter" class="btn btn-secondary me-2">Filter</button>
+<button type="button"  class="btn btn-info  me-2" (click)="export()">Export</button>
+<button type="button" id="add" class="btn btn-primary ">Add</button>
+</div>
+<button class="btn btn-primary" type="button" id="bsFilter" data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" hidden>
+    Button with data-bs-target
+</button>
+<div *ngIf="this.customFilter">
 
-<button class="btn btn-primary" type="button" id="bsFilter" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
-aria-controls="offcanvasExample" hidden>
-Button with data-bs-target
-</button >
+    <span class="badge bg-secondary mx-1" *ngFor="let item of customFilter"><b>{{item.title}}</b> : {{item.value}} &nbsp;<small style="cursor: pointer;" (click)="deleteFilter(item.key)">X</small></span>
+    <span  style="cursor: pointer;" (click)="deleteFilter('clear')" *ngIf="this.customFilter.length > 0" class="badge bg-danger">clear</span>
 
+</div>
 <table id="{{id}}" data-buttons='["excel"]' class="table table-stripped table-border ">
 
 </table>

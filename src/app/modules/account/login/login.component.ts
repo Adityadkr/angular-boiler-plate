@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { LayoutService } from 'src/app/lib/services/layout-service/layout.service';
 import { StorageService } from 'src/app/lib/services/storage-service/storage.service';
 import { ApiHelperService } from '../../../lib/services/api-helpers/api-helper.service';
@@ -37,6 +37,8 @@ export class LoginComponent implements OnInit {
   url: string = 'http://localhost:8070/role/getallrolesp';
   //= [{ "firstname": "Aditya", "lastname": "Deokar", "twitter": "@adityadeokar" }, { "firstname": "Rutuja", "lastname": "Deokar", "twitter": "@rutujadeokar" }]
   frm: any;
+  frmFilter: any;
+  customFilter: any;
   constructor(private api: ApiHelperService, private fb: FormBuilder, private _layoutService: LayoutService, private storageService: StorageService) { }
 
   ngOnInit(): void {
@@ -46,6 +48,12 @@ export class LoginComponent implements OnInit {
       date1: [""],
       date2: [""]
     })
+
+    this.frmFilter = this.fb.group({
+      ROLE_CODE: [null, [Validators.required]],
+      ROLE_NAME: [null, [Validators.required]]
+    })
+
     this.frm.get('date2').setValue('2023-12-31 14:20')
     this.storageService.setLocalStorageItem("bacchi", "Saurabh")
     this.tableData.length = 0
@@ -184,6 +192,15 @@ export class LoginComponent implements OnInit {
     //  this.subject.next()
     this.subject.complete();
 
+  }
+  onFilter() {
+    debugger
+    alert(JSON.stringify(this.frmFilter.value))
+    this.customFilter = [
+      { key: "ROLE_CODE", value: this.frmFilter.value.ROLE_CODE,title:"Role Code" },
+      { key: "ROLE_NAME", value: this.frmFilter.value.ROLE_NAME,title:"Role Name" }
+    ]
+    //this.url = this.url + JSON.stringify(this.frmFilter.value)
   }
 }
 

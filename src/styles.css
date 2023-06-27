@@ -53,3 +53,15 @@ nav a{
 input:focus.icinput{
     outline: none;    
 }
+
+.buttons-excel {
+    visibility: hidden ;
+} 
+
+.dataTables_filter
+{
+    position: absolute;
+    right: 13.5rem;
+    top: -2.2rem;
+    
+}
